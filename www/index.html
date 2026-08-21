@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Josh — About Myself</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg: #eef0e9;
+    --frame: #14161c;
+    --screen: #ffffff;
+    --ink: #14161c;
+    --ink-soft: #5c6066;
+    --accent: #ff6b35;
+    --accent-soft: #ffe3d6;
+    --line: #e4e2da;
+    --status: #f6f5f0;
+  }
+
+  *{box-sizing:border-box; margin:0; padding:0;}
+
+  html, body{
+    height:100%;
+  }
+
+  body{
+    background:var(--screen);
+    font-family:'Inter', sans-serif;
+  }
+
+  /* ---------- app screen (fills the real device) ---------- */
+  .screen{
+    background:var(--screen);
+    min-height:100vh;
+    min-height:100dvh;
+    display:flex;
+    flex-direction:column;
+    position:relative;
+  }
+
+  .content{
+    flex:1;
+    overflow-y:auto;
+    padding-top:env(safe-area-inset-top, 0);
+    -webkit-overflow-scrolling:touch;
+    scrollbar-width:none;
+  }
+  .content::-webkit-scrollbar{display:none;}
+
+  /* ---------- header / hero ---------- */
+  .hero{
+    background:var(--ink);
+    color:#fff;
+    padding:28px 24px 30px;
+    text-align:center;
+    position:relative;
+  }
+  .hero::after{
+    content:"";
+    position:absolute;
+    bottom:-1px; left:0; right:0;
+    height:24px;
+    background:var(--screen);
+    border-radius:24px 24px 0 0;
+  }
+
+  .eyebrow{
+    font-size:11px;
+    letter-spacing:0.14em;
+    text-transform:uppercase;
+    color:#ff9569;
+    font-weight:600;
+    margin-bottom:14px;
+  }
+
+  .avatar{
+    width:88px; height:88px;
+    border-radius:50%;
+    margin:0 auto 14px;
+    background:linear-gradient(135deg, var(--accent), #ffb787);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-family:'Space Grotesk', sans-serif;
+    font-size:34px;
+    font-weight:700;
+    color:#14161c;
+    border:3px solid rgba(255,255,255,0.15);
+  }
+
+  .name{
+    font-family:'Space Grotesk', sans-serif;
+    font-size:24px;
+    font-weight:700;
+    margin-bottom:4px;
+  }
+  .subtitle{
+    font-size:13px;
+    color:#b7bac2;
+    font-weight:500;
+  }
+
+  /* ---------- tab nav ---------- */
+  .tabs{
+    display:flex;
+    gap:8px;
+    padding:18px 20px 4px;
+    flex-shrink:0;
+  }
+  .tab-btn{
+    flex:1;
+    border:none;
+    background:var(--line);
+    color:var(--ink-soft);
+    font-family:'Inter', sans-serif;
+    font-weight:600;
+    font-size:13px;
+    padding:11px 0;
+    border-radius:12px;
+    cursor:pointer;
+    transition: background .2s ease, color .2s ease, transform .15s ease;
+  }
+  .tab-btn:hover{ transform:translateY(-1px); }
+  .tab-btn.active{
+    background:var(--ink);
+    color:#fff;
+  }
+  .tab-btn:focus-visible{
+    outline:2px solid var(--accent);
+    outline-offset:2px;
+  }
+
+  /* ---------- panels ---------- */
+  .panel{
+    display:none;
+    padding:20px 24px 28px;
+    animation: fadeIn .25s ease;
+  }
+  .panel.active{ display:block; }
+
+  @keyframes fadeIn{
+    from{ opacity:0; transform:translateY(6px); }
+    to{ opacity:1; transform:translateY(0); }
+  }
+
+  .section-heading{
+    font-family:'Space Grotesk', sans-serif;
+    font-size:17px;
+    font-weight:700;
+    color:var(--ink);
+    margin-bottom:12px;
+    display:flex;
+    align-items:center;
+    gap:8px;
+  }
+  .section-heading::before{
+    content:"";
+    width:6px; height:18px;
+    background:var(--accent);
+    border-radius:3px;
+    display:inline-block;
+  }
+
+  .panel p{
+    font-size:13.5px;
+    line-height:1.65;
+    color:var(--ink-soft);
+    margin-bottom:12px;
+  }
+
+  .tag-row{
+    display:flex;
+    flex-wrap:wrap;
+    gap:6px;
+    margin:14px 0 18px;
+  }
+  .tag{
+    font-size:11.5px;
+    font-weight:600;
+    color:var(--accent);
+    background:var(--accent-soft);
+    padding:5px 11px;
+    border-radius:20px;
+  }
+
+  .block-title{
+    font-size:12px;
+    font-weight:700;
+    text-transform:uppercase;
+    letter-spacing:.06em;
+    color:var(--ink);
+    margin:18px 0 8px;
+  }
+
+  /* ---------- skills ---------- */
+  .skill{
+    margin-bottom:14px;
+  }
+  .skill-top{
+    display:flex;
+    justify-content:space-between;
+    font-size:13px;
+    font-weight:600;
+    color:var(--ink);
+    margin-bottom:6px;
+  }
+  .skill-top span:last-child{ color:var(--ink-soft); font-weight:500; }
+  .bar{
+    height:6px;
+    background:var(--line);
+    border-radius:6px;
+    overflow:hidden;
+  }
+  .bar-fill{
+    height:100%;
+    background:linear-gradient(90deg, var(--accent), #ffb787);
+    border-radius:6px;
+    width:0;
+    transition:width 1s ease;
+  }
+  .skill-desc{
+    font-size:12px;
+    color:var(--ink-soft);
+    margin-top:5px;
+    line-height:1.5;
+  }
+
+  /* ---------- footer ---------- */
+  footer{
+    padding:16px 24px 22px;
+    text-align:center;
+    border-top:1px solid var(--line);
+    flex-shrink:0;
+  }
+  footer p{
+    font-size:11px;
+    color:var(--ink-soft);
+  }
+  footer strong{ color:var(--ink); }
+</style>
+</head>
+<body>
+
+<div class="screen">
+
+    <div class="content">
+      <header class="hero">
+        <p class="eyebrow">About Myself</p>
+        <div class="avatar">JK</div>
+        <h1 class="name">Joshua King</h1>
+        <p class="subtitle">BS Information Technology · Mobile App Dev</p>
+      </header>
+
+      <nav class="tabs" role="tablist" aria-label="Profile sections">
+        <button class="tab-btn active" role="tab" aria-selected="true" aria-controls="about-panel" id="about-tab" data-target="about-panel">About</button>
+        <button class="tab-btn" role="tab" aria-selected="false" aria-controls="skills-panel" id="skills-tab" data-target="skills-panel">Skills</button>
+      </nav>
+
+      <section id="about-panel" class="panel active" role="tabpanel" aria-labelledby="about-tab">
+        <h2 class="section-heading">About Section</h2>
+        <p>Hey, I'm Josh — a college student who genuinely enjoys the moment an idea on paper turns into something you can actually tap and use on a screen. I got into IT because I liked taking things apart to see how they worked, and mobile development scratched that itch better than anything else: one app touches design, logic, and real people's daily habits all at once.</p>
+        <p>Outside of coursework, I spend a lot of time experimenting with small side projects, tinkering with UI ideas, and occasionally falling down a rabbit hole researching something completely unrelated just because it's interesting. I like environments where curiosity is actually useful, not just tolerated.</p>
+
+        <p class="block-title">Interests</p>
+        <div class="tag-row">
+          <span class="tag">UI/UX</span>
+          <span class="tag">Mobile Dev</span>
+          <span class="tag">Gaming</span>
+          <span class="tag">Networking</span>
+          <span class="tag">Tech Trivia</span>
+          <span class="tag">Cybersecurity</span>
+        </div>
+
+        <p class="block-title">Education</p>
+        <p>Currently taking up BS Information Technology, with ITCC 41 — Mobile Application Development as one of this term's core subjects. Coursework so far has covered front-end fundamentals, responsive layouts, and now hybrid app packaging with tools like Cordova.</p>
+
+        <p class="block-title">Goals</p>
+        <p>Short term, I want to get comfortable enough with mobile frameworks to ship a small personal app end-to-end. Longer term, I'm aiming to work somewhere that lets me keep building things people actually use day to day, ideally on a team that cares as much about the small interaction details as the big features.</p>
+      </section>
+
+      <section id="skills-panel" class="panel" role="tabpanel" aria-labelledby="skills-tab" hidden>
+        <h2 class="section-heading">Skills Section</h2>
+
+        <div class="skill">
+          <div class="skill-top"><span>HTML &amp; CSS</span><span>Advanced</span></div>
+          <div class="bar"><div class="bar-fill" data-level="90"></div></div>
+          <p class="skill-desc">Comfortable building responsive layouts from scratch, no framework needed.</p>
+        </div>
+
+        <div class="skill">
+          <div class="skill-top"><span>JavaScript</span><span>Intermediate</span></div>
+          <div class="bar"><div class="bar-fill" data-level="70"></div></div>
+          <p class="skill-desc">Can wire up interactivity, DOM manipulation, and basic app logic.</p>
+        </div>
+
+        <div class="skill">
+          <div class="skill-top"><span>UI Design</span><span>Intermediate</span></div>
+          <div class="bar"><div class="bar-fill" data-level="75"></div></div>
+          <p class="skill-desc">Enjoy planning layouts and picking type/color systems before coding.</p>
+        </div>
+
+        <div class="skill">
+          <div class="skill-top"><span>Problem Solving</span><span>Advanced</span></div>
+          <div class="bar"><div class="bar-fill" data-level="85"></div></div>
+          <p class="skill-desc">Breaks down messy requirements into small, buildable steps.</p>
+        </div>
+
+        <div class="skill">
+          <div class="skill-top"><span>Teamwork</span><span>Advanced</span></div>
+          <div class="bar"><div class="bar-fill" data-level="88"></div></div>
+          <p class="skill-desc">Works well in group projects, especially under tight deadlines.</p>
+        </div>
+      </section>
+    </div>
+
+    <footer>
+      <p>&copy; <span id="year"></span> — Built by <strong>Joshua King</strong></p>
+    </footer>
+  </div>
+
+<script>
+  // Tab navigation interaction
+  const tabs = document.querySelectorAll('.tab-btn');
+  const panels = document.querySelectorAll('.panel');
+
+  tabs.forEach(tab => {
+    tab.addEventListener('click', () => {
+      tabs.forEach(t => { t.classList.remove('active'); t.setAttribute('aria-selected','false'); });
+      panels.forEach(p => { p.classList.remove('active'); p.hidden = true; });
+
+      tab.classList.add('active');
+      tab.setAttribute('aria-selected','true');
+
+      const target = document.getElementById(tab.dataset.target);
+      target.classList.add('active');
+      target.hidden = false;
+
+      if (tab.dataset.target === 'skills-panel') {
+        animateBars();
+      }
+    });
+  });
+
+  // Animate skill bars once, first time the Skills tab is opened
+  let barsAnimated = false;
+  function animateBars(){
+    if (barsAnimated) return;
+    barsAnimated = true;
+    document.querySelectorAll('.bar-fill').forEach(bar => {
+      const level = bar.dataset.level;
+      requestAnimationFrame(() => { bar.style.width = level + '%'; });
+    });
+  }
+
+  // Footer year
+  document.getElementById('year').textContent = new Date().getFullYear();
+</script>
+
+</body>
+</html>
