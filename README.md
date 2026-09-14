@@ -32,9 +32,9 @@ The About and Skills links in the navigation menu are plain HTML anchor links (`
 6. Run the app: `cordova run android`
 
 ## Application Screenshot
-![Student Profile running on Android emulator](screenshots/screenshot 1.png)
-![Student Profile running on Android emulator](screenshots/screenshot 2.png)
-![Student Profile running on Android emulator](screenshots/screenshot 3.png)
+![Student Profile running on Android emulator](screenshots/screenshot1.png)
+![Student Profile running on Android emulator](screenshots/screenshot2.png)
+![Student Profile running on Android emulator](screenshots/screenshot3.png)
 
 ## Author
 Joshua King
