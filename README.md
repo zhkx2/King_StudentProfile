@@ -35,6 +35,9 @@ The About and Skills links in the navigation menu are plain HTML anchor links (`
 ![Student Profile running on Android emulator](screenshots/screenshot1.png)
 ![Student Profile running on Android emulator](screenshots/screenshot2.png)
 ![Student Profile running on Android emulator](screenshots/screenshot3.png)
+![Desktop layout - About and Skills side by side](screenshots/desktop.png)
+![Desktop layout - About and Skills side by side](screenshots/mobile.png)
+![Desktop layout - About and Skills side by side](screenshots/tablet.png)
 
 ## Author
 Joshua King
