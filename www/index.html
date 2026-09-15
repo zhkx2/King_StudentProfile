@@ -10,10 +10,17 @@
   :root{
     --bg: #eef0e9;
     --ink: #14161c;
-    --ink-soft: #5c6066;
-    --accent: #ff6b35;
+    --ink-soft: #4b4f56;      /* darkened slightly from before for stronger contrast */
+    --accent: #e85a25;        /* darkened from #ff6b35 for better contrast on white */
     --accent-soft: #ffe3d6;
     --line: #e4e2da;
+
+    --space-1: 8px;
+    --space-2: 12px;
+    --space-3: 16px;
+    --space-4: 24px;
+    --space-5: 32px;
+    --space-6: 48px;
   }
 
   *{box-sizing:border-box; margin:0; padding:0;}
@@ -23,61 +30,89 @@
     font-family:'Inter', sans-serif;
     color:var(--ink);
     background:var(--bg);
+    line-height:1.5;
   }
 
   a{ text-decoration:none; color:inherit; }
+
+  img, svg{ max-width:100%; display:block; }
+
+  /* ---------- skip link (accessibility) ---------- */
+  .skip-link{
+    position:absolute;
+    left:-999px;
+    top:auto;
+    background:var(--ink);
+    color:#fff;
+    padding:10px 18px;
+    border-radius:8px;
+    z-index:100;
+    font-weight:600;
+    font-size:14px;
+  }
+  .skip-link:focus{
+    left:var(--space-3);
+    top:var(--space-3);
+  }
+
+  /* ---------- focus visibility (accessibility) ---------- */
+  a:focus-visible{
+    outline:3px solid var(--accent);
+    outline-offset:3px;
+    border-radius:6px;
+  }
 
   /* ---------- header ---------- */
   header.hero{
     background:var(--ink);
     color:#fff;
-    padding:36px 24px 40px;
+    padding:var(--space-6) var(--space-4) var(--space-5);
     text-align:center;
   }
 
   .eyebrow{
-    font-size:11px;
+    font-size:12px;
     letter-spacing:0.14em;
     text-transform:uppercase;
-    color:#ff9569;
+    color:#ffa476;
     font-weight:600;
-    margin-bottom:16px;
+    margin-bottom:var(--space-3);
   }
 
   .avatar{
-    width:96px; height:96px;
+    width:100px; height:100px;
     border-radius:50%;
-    margin:0 auto 16px;
+    margin:0 auto var(--space-3);
     background:linear-gradient(135deg, var(--accent), #ffb787);
     display:flex;
     align-items:center;
     justify-content:center;
     font-family:'Space Grotesk', sans-serif;
-    font-size:36px;
+    font-size:38px;
     font-weight:700;
     color:var(--ink);
-    border:3px solid rgba(255,255,255,0.15);
+    border:3px solid rgba(255,255,255,0.18);
   }
 
   .name{
     font-family:'Space Grotesk', sans-serif;
-    font-size:26px;
+    font-size:clamp(24px, 4vw, 32px);
     font-weight:700;
-    margin-bottom:6px;
+    margin-bottom:var(--space-1);
   }
   .subtitle{
-    font-size:14px;
-    color:#b7bac2;
+    font-size:15px;
+    color:#c7cad1;
     font-weight:500;
   }
 
   /* ---------- nav menu (pure anchor links) ---------- */
   nav.tabs{
     display:flex;
-    gap:10px;
-    max-width:520px;
+    gap:var(--space-2);
+    max-width:640px;
     margin:0 auto;
-    padding:20px 20px 0;
+    padding:var(--space-4) var(--space-3) 0;
   }
   nav.tabs a{
     flex:1;
@@ -85,8 +120,12 @@
     background:#fff;
     color:var(--ink-soft);
     font-weight:600;
-    font-size:14px;
-    padding:13px 0;
+    font-size:15px;
+    padding:14px 0;
+    min-height:48px;              /* comfortable tap target on mobile */
+    display:flex;
+    align-items:center;
+    justify-content:center;
     border-radius:12px;
     border:1px solid var(--line);
     transition: background .15s ease, color .15s ease;
@@ -98,83 +137,86 @@
 
   /* ---------- page wrapper ---------- */
   main{
-    max-width:520px;
+    max-width:640px;
     margin:0 auto;
-    padding:24px 20px 10px;
+    padding:var(--space-4) var(--space-3) var(--space-2);
   }
 
   section{
     background:#fff;
     border:1px solid var(--line);
     border-radius:16px;
-    padding:26px 24px;
-    margin-bottom:20px;
-    scroll-margin-top:20px; /* keeps the heading visible below a sticky area if added later */
+    padding:var(--space-5) var(--space-4);
+    margin-bottom:var(--space-4);
+    scroll-margin-top:var(--space-3);
   }
 
   .section-heading{
     font-family:'Space Grotesk', sans-serif;
-    font-size:19px;
+    font-size:clamp(19px, 2.4vw, 22px);
     font-weight:700;
     color:var(--ink);
-    margin-bottom:14px;
+    margin-bottom:var(--space-3);
     display:flex;
     align-items:center;
-    gap:8px;
+    gap:var(--space-2);
   }
   .section-heading::before{
     content:"";
-    width:6px; height:20px;
+    width:6px; height:22px;
     background:var(--accent);
     border-radius:3px;
     display:inline-block;
+    flex-shrink:0;
   }
 
   section p{
-    font-size:14.5px;
-    line-height:1.7;
+    font-size:15.5px;
+    line-height:1.75;
     color:var(--ink-soft);
-    margin-bottom:14px;
+    margin-bottom:var(--space-3);
+    max-width:68ch;               /* keeps line length readable on wide screens */
   }
 
   .tag-row{
     display:flex;
     flex-wrap:wrap;
-    gap:7px;
-    margin:16px 0 20px;
+    gap:var(--space-1);
+    margin:var(--space-3) 0 var(--space-4);
   }
   .tag{
-    font-size:12px;
+    font-size:13px;
     font-weight:600;
     color:var(--accent);
     background:var(--accent-soft);
-    padding:6px 12px;
+    padding:7px 14px;
     border-radius:20px;
   }
 
   .block-title{
-    font-size:12.5px;
+    font-size:13px;
     font-weight:700;
     text-transform:uppercase;
     letter-spacing:.06em;
     color:var(--ink);
-    margin:20px 0 8px;
+    margin:var(--space-4) 0 var(--space-2);
   }
 
   /* ---------- skills ---------- */
-  .skill{ margin-bottom:18px; }
+  .skill{ margin-bottom:var(--space-4); }
   .skill:last-child{ margin-bottom:0; }
   .skill-top{
     display:flex;
     justify-content:space-between;
-    font-size:14px;
+    gap:var(--space-2);
+    font-size:15px;
     font-weight:600;
     color:var(--ink);
-    margin-bottom:7px;
+    margin-bottom:var(--space-1);
   }
   .skill-top span:last-child{ color:var(--ink-soft); font-weight:500; }
   .bar{
-    height:7px;
+    height:8px;
     background:var(--line);
     border-radius:6px;
     overflow:hidden;
@@ -185,41 +227,81 @@
     border-radius:6px;
   }
   .skill-desc{
-    font-size:12.5px;
+    font-size:13.5px;
     color:var(--ink-soft);
-    margin-top:6px;
-    line-height:1.55;
+    margin-top:var(--space-1);
+    line-height:1.6;
   }
 
   /* ---------- footer ---------- */
   footer{
-    padding:24px 20px 32px;
+    padding:var(--space-5) var(--space-3) var(--space-6);
     text-align:center;
   }
   footer p{
-    font-size:12px;
+    font-size:13px;
     color:var(--ink-soft);
   }
   footer strong{ color:var(--ink); }
+
+  /* =========================================================
+     RESPONSIVE BREAKPOINTS
+     Mobile-first base styles above ~480px and below already
+     work well on phones. Tablet and desktop layouts widen the
+     content and switch the About/Skills sections to sit side
+     by side once there's room, instead of stacking.
+     ========================================================= */
+
+  /* ---- Tablet: 600px and up ---- */
+  @media (min-width: 600px){
+    header.hero{ padding:var(--space-6) var(--space-5) var(--space-6); }
+    nav.tabs{ max-width:680px; padding-top:var(--space-5); }
+    main{ max-width:680px; padding:var(--space-5) var(--space-4) var(--space-3); }
+    section{ padding:var(--space-6) var(--space-5); }
+  }
+
+  /* ---- Desktop: 900px and up ---- */
+  @media (min-width: 900px){
+    main{
+      max-width:960px;
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap:var(--space-4);
+      align-items:start;
+      padding:var(--space-6) var(--space-4) var(--space-4);
+    }
+    nav.tabs{ max-width:960px; }
+    section{ margin-bottom:0; }
+    /* Skills sits beside About rather than below it on wide screens */
+    #skills{ position:sticky; top:var(--space-4); }
+  }
+
+  /* ---- Large desktop: 1200px and up ---- */
+  @media (min-width: 1200px){
+    main{ max-width:1080px; }
+    nav.tabs{ max-width:1080px; }
+  }
 </style>
 </head>
 <body>
 
+<a class="skip-link" href="#main-content">Skip to main content</a>
+
 <header class="hero">
   <p class="eyebrow">About Myself</p>
-  <div class="avatar">JK</div>
+  <div class="avatar" role="img" aria-label="Profile picture placeholder showing initials JK">JK</div>
   <h1 class="name">Joshua King</h1>
   <p class="subtitle">BS Information Technology · Mobile App Dev</p>
 </header>
 
-<nav class="tabs">
+<nav class="tabs" aria-label="Section navigation">
   <a href="#about">About</a>
   <a href="#skills">Skills</a>
 </nav>
 
-<main>
-  <section id="about">
-    <h2 class="section-heading">About Section</h2>
+<main id="main-content">
+  <section id="about" aria-labelledby="about-heading">
+    <h2 class="section-heading" id="about-heading">About Section</h2>
     <p>Hey, I'm Joshua — a college student who genuinely enjoys the moment an idea on paper turns into something you can actually tap and use on a screen. I got into IT because I liked taking things apart to see how they worked, and mobile development scratched that itch better than anything else: one app touches design, logic, and real people's daily habits all at once.</p>
     <p>Outside of coursework, I spend a lot of time experimenting with small side projects, tinkering with UI ideas, and occasionally falling down a rabbit hole researching something completely unrelated just because it's interesting. I like environments where curiosity is actually useful, not just tolerated.</p>
 
@@ -240,8 +322,8 @@
     <p>Short term, I want to get comfortable enough with mobile frameworks to ship a small personal app end-to-end. Longer term, I'm aiming to work somewhere that lets me keep building things people actually use day to day, ideally on a team that cares as much about the small interaction details as the big features.</p>
   </section>
 
-  <section id="skills">
-    <h2 class="section-heading">Skills Section</h2>
+  <section id="skills" aria-labelledby="skills-heading">
+    <h2 class="section-heading" id="skills-heading">Skills Section</h2>
 
     <div class="skill">
       <div class="skill-top"><span>HTML &amp; CSS</span><span>Advanced</span></div>
