@@ -31,10 +31,66 @@
 <section class="hero">
   <p class="eyebrow">Student Profile</p>
   <div class="avatar" role="img" aria-label="Profile picture placeholder showing initials JK">JK</div>
-  <h1 class="name">Joshua King</h1>
-  <p class="subtitle">BS Information Technology · Mobile App Dev</p>
-  <p class="tagline">Hey, I'm Joshua — a college student who enjoys the moment an idea on paper turns into something you can actually tap and use on a screen. Take a look around: my background and interests are on the About page, what I can do is on Skills, a few things I've built are under Projects, and you can reach me through the Contact page.</p>
+  <h1 class="name" id="display-name">Joshua King</h1>
+  <p class="subtitle" id="display-course-year">BS Information Technology · 4th Year</p>
+  <p class="tagline" id="display-about">Hey, I'm Joshua — a college student who enjoys the moment an idea on paper turns into something you can actually tap and use on a screen.</p>
+
+  <div class="tag-row" id="display-skills" style="justify-content:center; margin-top:16px;">
+    <!-- skill tags are inserted here by JavaScript -->
+  </div>
+
+  <button type="button" class="btn-edit" id="edit-profile-btn">Edit Profile</button>
 </section>
+
+<!-- ================= EDIT PROFILE FORM (hidden by default) ================= -->
+<section class="edit-panel" id="edit-panel" hidden aria-labelledby="edit-heading">
+  <h2 class="section-heading" id="edit-heading">Edit Profile</h2>
+
+  <form id="edit-profile-form" novalidate>
+    <div class="form-field">
+      <label for="input-name">Full Name</label>
+      <input type="text" id="input-name" name="fullName" autocomplete="off">
+      <p class="field-error" id="error-name" hidden>Please enter your full name.</p>
+    </div>
+
+    <div class="form-field">
+      <label for="input-course">Course</label>
+      <input type="text" id="input-course" name="course" autocomplete="off">
+      <p class="field-error" id="error-course" hidden>Please enter your course.</p>
+    </div>
+
+    <div class="form-field">
+      <label for="input-year">Year Level</label>
+      <select id="input-year" name="yearLevel">
+        <option value="1st Year">1st Year</option>
+        <option value="2nd Year">2nd Year</option>
+        <option value="3rd Year">3rd Year</option>
+        <option value="4th Year">4th Year</option>
+        <option value="5th Year">5th Year</option>
+      </select>
+      <p class="field-error" id="error-year" hidden>Please select your year level.</p>
+    </div>
+
+    <div class="form-field">
+      <label for="input-about">About Me</label>
+      <textarea id="input-about" name="aboutMe" rows="4"></textarea>
+      <p class="field-error" id="error-about" hidden>Please complete your About Me description.</p>
+    </div>
+
+    <div class="form-field">
+      <label for="input-skills">Skills <span class="field-hint">(separate each with a comma)</span></label>
+      <textarea id="input-skills" name="skills" rows="2"></textarea>
+    </div>
+
+    <p class="field-error" id="error-general" hidden>Please complete all required fields.</p>
+
+    <div class="form-actions">
+      <button type="submit" class="btn-save">Save</button>
+      <button type="button" class="btn-cancel" id="cancel-edit-btn">Cancel</button>
+    </div>
+  </form>
+</section>
+<!-- ================= END EDIT PROFILE FORM ================= -->
 
 <main id="main-content">
   <nav class="quick-links" aria-label="Quick links to other pages">
@@ -60,6 +116,168 @@
 <footer class="site-footer">
   <p>&copy; 2026 — Built by <strong>Joshua King</strong></p>
 </footer>
+
+<script>
+  // ---------- Default profile data (used only if nothing is saved yet) ----------
+  const DEFAULT_PROFILE = {
+    fullName: "Joshua King",
+    course: "BS Information Technology",
+    yearLevel: "4th Year",
+    aboutMe: "Hey, I'm Joshua — a college student who enjoys the moment an idea on paper turns into something you can actually tap and use on a screen.",
+    skills: "UI/UX, Mobile Dev, Networking, Cybersecurity, Problem Solving"
+  };
+
+  const STORAGE_KEY = "studentProfile";
+
+  // ---------- Element references ----------
+  const displayName = document.getElementById("display-name");
+  const displayCourseYear = document.getElementById("display-course-year");
+  const displayAbout = document.getElementById("display-about");
+  const displaySkills = document.getElementById("display-skills");
+
+  const editBtn = document.getElementById("edit-profile-btn");
+  const cancelBtn = document.getElementById("cancel-edit-btn");
+  const editPanel = document.getElementById("edit-panel");
+  const editForm = document.getElementById("edit-profile-form");
+
+  const inputName = document.getElementById("input-name");
+  const inputCourse = document.getElementById("input-course");
+  const inputYear = document.getElementById("input-year");
+  const inputAbout = document.getElementById("input-about");
+  const inputSkills = document.getElementById("input-skills");
+
+  const errorName = document.getElementById("error-name");
+  const errorCourse = document.getElementById("error-course");
+  const errorYear = document.getElementById("error-year");
+  const errorAbout = document.getElementById("error-about");
+  const errorGeneral = document.getElementById("error-general");
+
+  // ---------- Load profile: from localStorage if present, otherwise defaults ----------
+  function loadProfile(){
+    const saved = localStorage.getItem(STORAGE_KEY);
+    if (saved){
+      try{
+        return JSON.parse(saved);
+      } catch(e){
+        // If saved data is somehow corrupted, fall back to defaults instead of breaking the page
+        return DEFAULT_PROFILE;
+      }
+    }
+    return DEFAULT_PROFILE;
+  }
+
+  // ---------- Render profile data into the page (DOM manipulation) ----------
+  function renderProfile(profile){
+    displayName.textContent = profile.fullName;
+    displayCourseYear.textContent = profile.course + " · " + profile.yearLevel;
+    displayAbout.textContent = profile.aboutMe;
+
+    // Rebuild skill tags
+    displaySkills.innerHTML = "";
+    const skillsArray = profile.skills
+      .split(",")
+      .map(s => s.trim())
+      .filter(s => s.length > 0);
+
+    skillsArray.forEach(skill => {
+      const tag = document.createElement("span");
+      tag.className = "tag";
+      tag.textContent = skill;
+      displaySkills.appendChild(tag);
+    });
+  }
+
+  // ---------- Populate the edit form with the current profile ----------
+  function populateForm(profile){
+    inputName.value = profile.fullName;
+    inputCourse.value = profile.course;
+    inputYear.value = profile.yearLevel;
+    inputAbout.value = profile.aboutMe;
+    inputSkills.value = profile.skills;
+  }
+
+  // ---------- Clear all validation error messages ----------
+  function clearErrors(){
+    [errorName, errorCourse, errorYear, errorAbout, errorGeneral].forEach(el => {
+      el.hidden = true;
+    });
+  }
+
+  // ---------- Show the edit form ----------
+  function openEditPanel(){
+    const current = loadProfile();
+    populateForm(current);
+    clearErrors();
+    editPanel.hidden = false;
+    editPanel.scrollIntoView({ behavior: "smooth", block: "start" });
+  }
+
+  // ---------- Hide the edit form without saving ----------
+  function closeEditPanel(){
+    editPanel.hidden = true;
+  }
+
+  // ---------- Validate required fields ----------
+  function validateForm(){
+    let isValid = true;
+    clearErrors();
+
+    if (inputName.value.trim() === ""){
+      errorName.hidden = false;
+      isValid = false;
+    }
+    if (inputCourse.value.trim() === ""){
+      errorCourse.hidden = false;
+      isValid = false;
+    }
+    if (inputYear.value.trim() === ""){
+      errorYear.hidden = false;
+      isValid = false;
+    }
+    if (inputAbout.value.trim() === ""){
+      errorAbout.hidden = false;
+      isValid = false;
+    }
+
+    if (!isValid){
+      errorGeneral.hidden = false;
+    }
+
+    return isValid;
+  }
+
+  // ---------- Event: open the edit form ----------
+  editBtn.addEventListener("click", openEditPanel);
+
+  // ---------- Event: cancel editing ----------
+  cancelBtn.addEventListener("click", function(){
+    closeEditPanel();
+  });
+
+  // ---------- Event: save the form ----------
+  editForm.addEventListener("submit", function(event){
+    event.preventDefault(); // stop the form from reloading the page
+
+    if (!validateForm()){
+      return; // stop here, keep the form open, errors are already showing
+    }
+
+    const updatedProfile = {
+      fullName: inputName.value.trim(),
+      course: inputCourse.value.trim(),
+      yearLevel: inputYear.value,
+      aboutMe: inputAbout.value.trim(),
+      skills: inputSkills.value.trim()
+    };
+
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(updatedProfile));
+    renderProfile(updatedProfile);
+    closeEditPanel();
+  });
+
+  // ---------- On page load: display whatever profile data exists ----------
+  renderProfile(loadProfile());
+</script>
 
 </body>
 </html>

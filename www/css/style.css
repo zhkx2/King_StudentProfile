@@ -394,3 +394,110 @@ footer.site-footer strong{ color:var(--ink); }
 @media (min-width: 1200px){
   .site-header-inner, main, .quick-links{ max-width:1200px; }
 }
+
+/* =========================================================
+   ACTIVITY 5 — Edit Profile feature
+   ========================================================= */
+
+.btn-edit{
+  margin-top: var(--space-4);
+  background: var(--accent);
+  color: #fff;
+  border: none;
+  font-weight: 600;
+  font-size: 14.5px;
+  padding: 12px 26px;
+  min-height: 44px;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: background .15s ease, transform .15s ease;
+}
+.btn-edit:hover{ background: #d24f1d; transform: translateY(-1px); }
+
+.edit-panel{
+  max-width: 640px;
+  margin: 0 auto;
+  padding: var(--space-4) var(--space-3) 0;
+}
+.edit-panel .section-heading{
+  margin-bottom: var(--space-3);
+}
+
+#edit-profile-form{
+  background:#fff;
+  border:1px solid var(--line);
+  border-radius:16px;
+  padding: var(--space-4);
+}
+
+.form-field{
+  margin-bottom: var(--space-3);
+}
+.form-field label{
+  display:block;
+  font-size: 13.5px;
+  font-weight:600;
+  color: var(--ink);
+  margin-bottom: var(--space-1);
+}
+.field-hint{
+  font-weight: 500;
+  color: var(--ink-soft);
+  font-size: 12px;
+}
+.form-field input,
+.form-field select,
+.form-field textarea{
+  width:100%;
+  font-family:'Inter', sans-serif;
+  font-size: 14.5px;
+  color: var(--ink);
+  border:1px solid var(--line);
+  border-radius: 10px;
+  padding: 11px 14px;
+  min-height: 44px;
+  background:#fff;
+}
+.form-field textarea{
+  min-height: auto;
+  resize: vertical;
+}
+.form-field input:focus,
+.form-field select:focus,
+.form-field textarea:focus{
+  outline:3px solid var(--accent);
+  outline-offset: 1px;
+  border-color: var(--accent);
+}
+
+.field-error{
+  color:#c62828;
+  font-size: 12.5px;
+  margin-top: 6px;
+}
+
+.form-actions{
+  display:flex;
+  gap: var(--space-2);
+  margin-top: var(--space-3);
+}
+.btn-save, .btn-cancel{
+  flex:1;
+  min-height: 46px;
+  font-weight:600;
+  font-size: 14.5px;
+  border-radius: 12px;
+  border: none;
+  cursor:pointer;
+  transition: background .15s ease, transform .15s ease;
+}
+.btn-save{
+  background: var(--accent);
+  color:#fff;
+}
+.btn-save:hover{ background:#d24f1d; }
+.btn-cancel{
+  background: var(--line);
+  color: var(--ink);
+}
+.btn-cancel:hover{ background:#d8d6cc; }
