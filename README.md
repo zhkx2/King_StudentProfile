@@ -39,5 +39,20 @@ The About and Skills links in the navigation menu are plain HTML anchor links (`
 ![Desktop layout - About and Skills side by side](screenshots/mobile.png)
 ![Desktop layout - About and Skills side by side](screenshots/tablet.png)
 
+**Profile (Homepage)**
+![Profile page](screenshots/profilepage.png)
+
+**About**
+![About page](screenshots/aboutpage.png)
+
+**Skills**
+![Skills page](screenshots/skillspage.png)
+
+**Projects**
+![Projects page](screenshots/projectspage.png)
+
+**Contact**
+![Contact page](screenshots/contactpage.png)
+
 ## Author
 Joshua King
